@@ -918,7 +918,7 @@
   <header>
     <div class="header-row">
       <h1>Today's MLB Matchups</h1>
-      <div class="updated-at">Updated Jul 4, 2026 11:36 AM ET</div>
+      <div class="updated-at">Updated Jul 4, 2026 11:53 AM ET</div>
     </div>
     <div class="controls">
       <label>Games
@@ -1658,7 +1658,6 @@
         if (numberValue(row.batter_rating) < 45) concerns.push(`weak overall hitter matchup (batter rating ${statOrDash(row.batter_rating)})`);
         if (!Number(row.bvp_pa || 0)) concerns.push("no useful batter-vs-pitcher history");
         if (Number(row.bvp_pa || 0) > 0 && numberValue(row.bvp_rating) < 45) concerns.push(`poor BvP signal (${Number(row.bvp_hits || 0)} hits in ${Number(row.bvp_pa || 0)} PA)`);
-        if (row.lineup_status !== "Confirmed") concerns.push("lineup spot is not confirmed");
         const summary = concerns.slice(0, 3).join("; ") || "not enough supporting matchup signals compared with better options";
         return `Avoid: ${summary}.`;
       }
@@ -1675,14 +1674,6 @@
       const reasons = [];
       reasons.push(`<div><strong>Signal:</strong> ${confidenceSummary(row, primary)}</div>`);
       reasons.push(`<div><strong>${ratingModes[ratingMode].label} ${Number(primary || 0).toFixed(1)}:</strong> one of the strongest active hitter scores in the current filters.</div>`);
-      if (row.lineup_status === "Confirmed") {
-        reasons.push(`<div><strong>Lineup:</strong> confirmed in the posted lineup${formatBattingOrder(row.batting_order) ? `, batting ${formatBattingOrder(row.batting_order)}` : ""}.</div>`);
-      } else {
-        reasons.push(`<div><strong>Lineup:</strong> not marked inactive, but still listed as ${lineupLabel(row.lineup_status, true)}.</div>`);
-      }
-      if (row.active_roster === true || row.active_roster === "True") {
-        reasons.push(`<div><strong>Roster:</strong> listed on the current MLB active roster${row.active_roster_status ? ` (${row.active_roster_status})` : ""}.</div>`);
-      }
       if (row.availability_note) {
         reasons.push(`<div><strong>Availability note:</strong> ${row.availability_note}</div>`);
       }
